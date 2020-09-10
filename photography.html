@@ -12,15 +12,102 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
+	<style>
+		.prow {
+		  display: flex;
+		  flex-wrap: wrap;
+		  padding: 0 4px;
+		}
+
+		/* Create four equal columns that sits next to each other */
+		.pcolumn {
+		  flex: 25%;
+		  max-width: 25%;
+		  padding: 0 4px;
+		}
+
+		.pcolumn img {
+		  margin-top: 8px;
+		  vertical-align: middle;
+		  width: 100%;
+		}
+
+		/* Responsive layout - makes a two column-layout instead of four columns */
+		@media screen and (max-width: 800px) {
+		  .pcolumn {
+		    flex: 50%;
+		    max-width: 50%;
+		  }
+		}
+
+		/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+		@media screen and (max-width: 600px) {
+		  .pcolumn {
+		    flex: 100%;
+		    max-width: 100%;
+		  }
+		}
+		* {
+		  box-sizing: border-box;
+		}
+
+		body {
+		  margin: 0;
+		}
+
+		.header {
+		  text-align: center;
+		  padding: 32px;
+		}
+
+		.prow {
+		  display: -ms-flexbox; /* IE10 */
+		  display: flex;
+		  -ms-flex-wrap: wrap; /* IE10 */
+		  flex-wrap: wrap;
+		  padding: 0 4px;
+		}
+
+		/* Create four equal columns that sits next to each other */
+		.pcolumn {
+		  -ms-flex: 25%; /* IE10 */
+		  flex: 25%;
+		  max-width: 25%;
+		  padding: 0 4px;
+		}
+
+		.pcolumn img {
+		  margin-top: 8px;
+		  vertical-align: middle;
+		  width: 100%;
+		}
+
+		/* Responsive layout - makes a two column-layout instead of four columns */
+		@media screen and (max-width: 800px) {
+		  .pcolumn {
+		    -ms-flex: 50%;
+		    flex: 50%;
+		    max-width: 50%;
+		  }
+		}
+
+		/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+		@media screen and (max-width: 600px) {
+		  .pcolumn {
+		    -ms-flex: 100%;
+		    flex: 100%;
+		    max-width: 100%;
+		  }
+		}
+		</style>
 	<body class="is-preload">
 
 		<!-- Wrapper -->
 			<div id="wrapper">
 
 				<!-- Header -->
-				<!-- Note: The "styleN" class below should match that of the banner element. -->
-					<header id="header" class="alt style2">
-						<a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
+					<header id="header" class="alt">
+						<a href="index.html" class="logo"><strong>Shivaram</strong> <span>Yellamilli</span></a>
 						<nav>
 							<a href="#menu">Menu</a>
 						</nav>
@@ -30,118 +117,74 @@
 					<nav id="menu">
 						<ul class="links">
 							<li><a href="index.html">Home</a></li>
-							<li><a href="landing.html">Landing</a></li>
-							<li><a href="generic.html">Generic</a></li>
-							<li><a href="elements.html">Elements</a></li>
+							<li><a href="resume.html">Resumé</a></li>
+							<li><a href="photography.html">Photography</a></li>
+							<li><a href="writing.html">Writing</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
 						</ul>
 						<ul class="actions stacked">
-							<li><a href="#" class="button primary fit">Get Started</a></li>
-							<li><a href="#" class="button fit">Log In</a></li>
+							<li><a href="#footer" class="button primary fit">Get in Touch!</a></li>
 						</ul>
 					</nav>
-
-				<!-- Banner -->
-				<!-- Note: The "styleN" class below should match that of the header element. -->
-					<section id="banner" class="style2">
-						<div class="inner">
-							<span class="image">
-								<img src="images/pic07.jpg" alt="" />
-							</span>
-							<header class="major">
-								<h1>Landing</h1>
-							</header>
-							<div class="content">
-								<p>Lorem ipsum dolor sit amet nullam consequat<br />
-								sed veroeros. tempus adipiscing nulla.</p>
-							</div>
-						</div>
-					</section>
 
 				<!-- Main -->
 					<div id="main">
 
-						<!-- One -->
-							<section id="one">
-								<div class="inner">
-									<header class="major">
-										<h2>Sed amet aliquam</h2>
-									</header>
-									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna.</p>
-								</div>
-							</section>
+						<body>
 
-						<!-- Two -->
-							<section id="two" class="spotlights">
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/pic08.jpg" alt="" data-position="center center" />
-									</a>
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Orci maecenas</h3>
-											</header>
-											<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</p>
-											<ul class="actions">
-												<li><a href="generic.html" class="button">Learn more</a></li>
-											</ul>
-										</div>
-									</div>
-								</section>
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/pic09.jpg" alt="" data-position="top center" />
-									</a>
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Rhoncus magna</h3>
-											</header>
-											<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</p>
-											<ul class="actions">
-												<li><a href="generic.html" class="button">Learn more</a></li>
-											</ul>
-										</div>
-									</div>
-								</section>
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
-									</a>
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Sed nunc ligula</h3>
-											</header>
-											<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</p>
-											<ul class="actions">
-												<li><a href="generic.html" class="button">Learn more</a></li>
-											</ul>
-										</div>
-									</div>
-								</section>
-							</section>
-
-						<!-- Three -->
-							<section id="three">
-								<div class="inner">
-									<header class="major">
-										<h2>Massa libero</h2>
-									</header>
-									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.</p>
-									<ul class="actions">
-										<li><a href="generic.html" class="button next">Get Started</a></li>
-									</ul>
-								</div>
-							</section>
-
+<!-- Header -->
+					<div class="header">
+					  <h1 class = "reducedMargins">The Things I've Seen</h1>
 					</div>
+
+
+					<div class="prow">
+					  <div class="pcolumn">
+					    <img src="images/neowise.png">
+					    <img src="images/leaf.png">
+					    <img src="images/ju.jpg">
+					    <img src="images/moon.png">
+					    <img src="images/aki_sunset.jpg">
+					    <img src="images/whitsunday.jpg">
+
+					  </div>
+					  <div class="pcolumn">
+					    <img src="images/scuba_wall.jpg">
+					    <img src="images/orchid_rain.png">
+					    <img src="images/dandelion_puffball.jpg">
+					    <img src="images/bee.jpg"> 
+					    <img src="images/furano_flowers.jpg">
+					    <img src="images/abhi_snapper.jpg">
+					  </div>
+					  <div class="pcolumn">
+					    <img src="images/kimbear.jpg">
+					    <img src="images/flower_line.jpg">
+					    <img src="images/bubbles.jpg">
+					    <img src="images/carmel_sunset.jpg">
+					    <img src="images/sea_tiger.jpg">
+					    <img src="images/bird.png">
+
+
+
+
+					  </div>
+					  <div class="pcolumn">
+					    <img src="images/island_kelpfish.jpg">
+					    <img src="images/fitzgerald_bike.jpg">
+					    <img src="images/millie.png">
+					    <img src="images/dad.jpg">
+					    <img src="images/milkyway.jpg">
+					    <img src="images/catalina_nudi.jpg"> 
+					  </div>
+					</div>
+
 
 				<!-- Contact -->
 					<section id="contact">
 						<div class="inner">
 							<section>
-								<form method="post" action="#">
+								<form method="post" action="https://formspree.io/shivaramyellamilli@berkeley.edu">
+									<h2> Contact  Me </h2>
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Name</label>
@@ -167,22 +210,22 @@
 									<div class="contact-method">
 										<span class="icon solid alt fa-envelope"></span>
 										<h3>Email</h3>
-										<a href="#">information@untitled.tld</a>
+										<a href="#">shivaramyellamilli@berkeley.edu</a>
 									</div>
 								</section>
 								<section>
 									<div class="contact-method">
 										<span class="icon solid alt fa-phone"></span>
 										<h3>Phone</h3>
-										<span>(000) 000-0000 x12387</span>
+										<span>(408) 401- 6524 </span>
 									</div>
 								</section>
 								<section>
 									<div class="contact-method">
 										<span class="icon solid alt fa-home"></span>
 										<h3>Address</h3>
-										<span>1234 Somewhere Road #5432<br />
-										Nashville, TN 00000<br />
+										<span>21454 Sarahills Ct<br />
+										Saratoga, CA 95070<br />
 										United States of America</span>
 									</div>
 								</section>
@@ -194,14 +237,15 @@
 					<footer id="footer">
 						<div class="inner">
 							<ul class="icons">
-								<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
-								<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
-								<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-								<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+								<!-- <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li> -->
+								<li><a href="https://www.linkedin.com/in/shivaramy/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+								<li><a href="https://github.com/syellamilli" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://gitlab.com/shivaramy" class="icon brands alt fa-gitlab"><span class="label">GitLab</span></a></li>
+								<li><a href="https://www.instagram.com/axiomatically.ambiguous/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
 							</ul>
 							<ul class="copyright">
-								<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+								<li>&copy; Shivaram  Yellamilli</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
 							</ul>
 						</div>
 					</footer>
