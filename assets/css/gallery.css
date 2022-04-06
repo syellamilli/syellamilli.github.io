@@ -36,15 +36,17 @@ body {
         width: 98%;
    }
 }
-#gallery > div:nth-child(n) {
-    grid-column: span 16;
-    grid-row: span 16;
+#gallery > div:nth-child(2n + 1) {
+    grid-column: span 72;
+    grid-row: span 48;
 }
-
-#gallery > div:nth-child(3n + 1) {
-    grid-column: span 48;
+#gallery > div:nth-child(n) {
+    grid-column: span 36;
     grid-row: span 27;
 }
+
+
+
 
 #gallery > div > a {
     opacity: 0;
