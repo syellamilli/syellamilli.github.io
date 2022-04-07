@@ -8,9 +8,10 @@
 body {
     margin: 5px;
     position: relative;
+    aspect-ratio: 1;
 }
 #gallery {
-    aspect-ratio: 1/1;
+    aspect-ratio: 1;
     display: grid;
     grid-template: repeat(144, 1fr) / repeat(144, 1fr);
     grid-gap: .3em;
@@ -36,15 +37,18 @@ body {
         width: 98%;
    }
 }
-#gallery > div:nth-child(2n + 1) {
-    grid-column: span 72;
-    grid-row: span 48;
-}
 #gallery > div:nth-child(n) {
     grid-column: span 36;
     grid-row: span 27;
 }
-
+#gallery > div:nth-child(1) {
+    grid-column: span 72;
+    grid-row: span 72;
+}
+#gallery > div:nth-child(2) {
+    grid-column: span 72;
+    grid-row: span 144;
+}
 
 
 
@@ -139,8 +143,8 @@ body {
     mix-blend-mode: soft-light;
 }
 [id^="lightbox-"] img {
-    max-height: 90vh;
-    max-width: 100%;
+    
+    min-width: 100%;
     margin: 0;
     padding: 0;
     filter: blur(50px);
