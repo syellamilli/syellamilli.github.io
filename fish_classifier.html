@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-177823870-1"></script>
+		<script>
+		 window.dataLayer = window.dataLayer || [];
+		 function gtag(){dataLayer.push(arguments);}
+		 gtag('js', new Date());
+
+		 gtag('config', 'UA-177823870-1');
+		</script>
+		<title>My Photography Journey</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="icon" type="image/png" href="favicon.png">
+	</head>
+
+	<style>
+		img {
+
+		 width: 100%;
+		 height: 100%;
+
+		 object-fit: cover;
+
+		 object-position: center;
+
+		}
+	</style>
+
+
+
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<a href="index.html" class="logo"><strong>Shivaram</strong> <span>Yellamilli</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="resume.html">Resumé</a></li>
+							<li><a href="photography.html">Photography</a></li>
+							<li><a href="writing.html">Writing</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#footer" class="button primary fit">Get in Touch!</a></li>
+						</ul>
+					</nav>
+
+				
+				<!-- Main -->
+					<div id="main">
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h1>Building a Fish Species Classifier</h1>
+										<h3><i>June 29, 2022</i></h3>
+									</header>
+
+									<!-- Content -->
+										<p>For as long as I can remember, I have been enamored with the ocean and all of its inhabitants; fish in particular were always fascinating to me. Since I began SCUBA diving, identifying them has become something of particular interest to me. While I can often ask my dive buddies for help, many times they don’t know. This motivated me to try and see whether I could build an ML model that could tackle this issue for me. While, the idea behind this project was conceptually simple, getting the data and building the best model turned out to be anything but. </p>
+									
+										<p>Initially, I set out with the goal of using fishbase.se (a helpful site that catalogues species of fish with images) as my primary data source, but I ran into two key issues:
+											<ul>
+												<li>Fishbase contains 34,800 species in it. While it is possible to train a model on this number of species, I simply did not have the hardware/resources for it. Thus, I decided to limit myself to a much smaller subset: fish present in Hawaii. Of the 34,800 species in the database, 1,287 of them are present in Hawaii.</li>
+												<li>Most of these species did not have many images with them. Of these species only 99 had 10 or more images and only 14 had 50 or more images. Ideally when training a convolutional neural network, at least 100 images per class is needed, so clearly fishbase did not have enough data to train a useful species classifier. Thus, I decided to augment my data with images scraped from Google. </li>
+											 </ul> 
+										</p>
+										<div style="max-width: 600px; margin-right: 2vw; float:left">
+											<img src="images/Previews/webp/leaf_scorpionfish.webp">
+										 </div>
+
+										<p>To do this, I utilized Selenium along with a table of species names scraped from fishbase. The species had both a common and a scientific name, so I scraped images for both of these terms and stored them separately. Unfortunately, the scraped images from google were not as clean as those from fishbase; there were many non-fish images within the results. To tackle this, I elected to train another CNN classifier to determine whether or not an image contained a fish or not. </p>
+
+										<p>To train this classifier, I downloaded mini-imagenet and separated the fish images within it from the non-fish ones. This process involved doing a key-term search among the classes and then manually sorting through the remaining results. I then augmented the fish class using the images from fishbase. For the classifier model itself, I simply took a transfer learning approach. I took the Resnet18 with pretrained weights and trained it on the aforementioned data. In doing so, I was able to get 97.17% accuracy on a withheld test set. </p>
+										
+										<p>With the is_fish classifier built, I was now ready to build my species classifier. For this classifier, I elected to use the fishbase images as my validation and test images, as these were the only images I knew to be correctly labelled. With this in mind, I initially decided to limit myself to species that had at least 25 images in fishbase and at least 50 fish images for both the common name and the scientific name. Of the 1,287 species in Hawaii, only 92 met these thresholds. </p>
+										
+										<p>For this model, I also used a transfer learning approach, but I experimented with many more different aspects to find the best model that I could. In my experiments, I tested:
+											<ul>
+												<li>different pretrained architectures (Resnet18, Efficient Net B0, Convnet Tiny)</li>
+												<li>varying amounts of frozen layers (from no frozen layers to all but the last layer frozen)</li>
+												<li>different initial learning rates</li>
+												<li>different learning rate schedulers (stepwise decay and decay on plateau)</li>
+												<li>L2 Regularization</li>
+												<li>varied data augmentation (rotation, reflection, random cropping, normalization, etc.)</li>
+												<li>different training sets (common name images only, scientific name images only, both image sets together)</li>
+												<li>expanding training sets (train on one set [eg common] and then fine tune using the other set(s) [scientific or mixed])</li>
+
+											</ul>
+											At the end of my experimentation, the best model turned out to be the partially frozen Convnet Tiny trained using Plateau Decay on the Mixed Dataset; it has a 80.78% accuracy and a 90.03% top 3 accuracy. This was miles better than my first model (Resnet18) which had a 63.68% accuracy. 
+										</p>
+
+										<p>With this model built, I wanted to see if I could build a classifier on even more classes, so I lowered the thresholds used for filtering fish classes to having 10+ images in fishbase and 30+ scientific and common images each, which allowed for 286 different species. For this model, I used the same architecture as I did for the 92 species classifier and tried both training the model from scratch and taking a curriculum learning based approach and training the model off of the 92 species classifier. The curriculum learning approach resulted in a better model, with an accuracy of 65.17%, a top 3 accuracy of 82.26% and a top 5 accuracy of 87.40%.</p>
+
+										<p>Overall, this project turned out to be a fantastic learning experience for me. In completing it, I learned about a wide variety of topics including, but not limited to: getting CUDA to work on Linux (a non-trivial task), Pytorch, web scraping using selenium, convolutional neural networks, transfer learning, neural network fine tuning, and curriculum learning. In the future, I hope to expand my model to more species, try other architectural improvements, and deploy a web application to enable easy access to my model. Until then, most of my interactions with these fascinating animals will be underwater. </p>
+										</div>
+								</section>
+							</div>
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner" style ="margin: 0 auto; max-width: 65em; width: calc(100% - 6em);">
+							<section>
+								<form method="post" action="https://formspree.io/syellamilli@protonmail.com">
+									<h2> Contact Me </h2>
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="6"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Clear" /></li>
+									</ul>
+								</form>
+							</section>
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">shivaramyellamilli@gmail.com</a>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-phone"></span>
+										<h3>Phone</h3>
+										<span>(408) 401- 6524 </span>
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner" style =" padding: 4em 0 2em 0; margin: 0 auto;max-width: 65em; width: calc(100% - 6em);">
+							<ul class="icons">
+								<!-- <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li> -->
+								<li><a href="https://www.linkedin.com/in/shivaramy/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+								<li><a href="https://github.com/syellamilli" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://gitlab.com/shivaramy" class="icon brands alt fa-gitlab"><span class="label">GitLab</span></a></li>
+								<li><a href="https://www.instagram.com/axiomatically.ambiguous/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Shivaram Yellamilli</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+				Overall, this project turned out to be a fantastic learning experience for me. In completing it, I learned about a wide variety of topics including, but not limited to: getting CUDA to work on Linux (a non-trivial task), Pytorch, web scraping using selenium, convolutional neural networks, transfer learning, neural network fine tuning, and curriculum learning. In the future, I hope to expand my model to more species, try other architectural improvements, and deploy a web application to enable easy access to my model. Until then, most of my interactions with these fascinating animals will be underwater. 
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
