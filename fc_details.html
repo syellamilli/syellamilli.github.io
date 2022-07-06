@@ -1,0 +1,470 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-177823870-1"></script>
+		<script>
+		 window.dataLayer = window.dataLayer || [];
+		 function gtag(){dataLayer.push(arguments);}
+		 gtag('js', new Date());
+
+		 gtag('config', 'UA-177823870-1');
+		</script>
+		<title>Fish ID CNN Experiments</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="icon" type="image/png" href="favicon.png">
+	</head>
+
+	<style>
+		img {
+
+		 width: 100%;
+		 height: 100%;
+
+		 object-fit: cover;
+
+		 object-position: center;
+
+		}
+	</style>
+
+
+
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<a href="index.html" class="logo"><strong>Shivaram</strong> <span>Yellamilli</span></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="resume.html">Resumé</a></li>
+							<li><a href="photography.html">Photography</a></li>
+							<li><a href="writing.html">Writing</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
+						</ul>
+						<ul class="actions stacked">
+							<li><a href="#footer" class="button primary fit">Get in Touch!</a></li>
+						</ul>
+					</nav>
+
+				
+				<!-- Main -->
+					<div id="main">
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+
+									<header class="major">
+										<h1>Building a Fish Species Classifier</h1>
+										<h3><i>July 5, 2022</i></h3>
+									</header>
+
+									<!-- Content -->
+										<p>This post is exclusively focused on the CNN experiments I did in detail; for more context on the project overall checkout my project description <a href =https://syellamilli.github.io/fish_classifier.html>here</a>. I decided to initially limit myself to 92 species which had sufficient data in fishbase and google images. It is also worth noting that I elected to use the Fishbase images exclusively for test and validation; I did this because I this was the only data that I knew to be correctly labeled (google images could have the wrong species in a given result). </p>
+
+										<h2> 92 Species Classifier Experiments</h2>
+										
+										<p>For each species, I scraped google images for both their scientific and common names. For much of my initial exploration, I limited myself to training my models on the scientific name images; I did this because I believed that these images would be more likely to be labeled correctly. I began my exploration by trying a variety of pretrained models. I used Resnet18, EfficientNetB0, and Convnet Tiny. By training the pretrained models on my scientific image dataset, I got the following accuracies on my test set.</p> 
+											
+										<table>
+											<tr>
+											  <th>Model</th>
+											  <th>Test Accuracy</th>
+											  <th>Train Accuracy</th>
+											</tr>
+											<tr>
+											  <td>ResNet18</td>
+											  <td>63.68%</td>
+											  <td>90.55%</td>
+											</tr>
+											<tr>
+											  <td>EfficientNet B0</td>
+											  <td>64.18%</td>
+											  <td>86.34%</td>
+											</tr>
+											<tr>
+												<td>ConvNet Tiny</td>
+												<td>66.57%</td>
+												<td>90.27%</td>
+											  </tr>
+										  </table> 
+										
+										<p>I also tried taking a feature extraction based approach from the pretrained versions of these models. To do this, I froze all but the last layer and trained them. When doing this, I got the following accuracies. It is worth noting, that while freezing layers resulted worse accuracies, it also significantly improved training times. </p>
+											
+										<table>
+											<tr>
+											  <th>Model</th>
+											  <th>Test Accuracy</th>
+											  <th>Train Accuracy</th>
+											</tr>
+											<tr>
+											  <td>ResNet18</td>
+											  <td>41.39%</td>
+											  <td>67.55%</td>
+											</tr>
+											<tr>
+											  <td>EfficientNet B0</td>
+											  <td>48.86%</td>
+											  <td>59.43%</td>
+											</tr>
+											<tr>
+												<td>ConvNet Tiny</td>
+												<td>58.77%</td>
+												<td>63.19%</td>
+											  </tr>
+										  </table> 
+
+											<p>I also tested several initial learning rates for the Resnet18 model to make sure that I had an accurate representation of what a last layer approach could do. I found that:</p>
+											
+											<table>
+												<tr>
+												  <th>Learning Rate</th>
+												  <th>Test Accuracy</th>
+												  <th>Train Accuracy</th>
+												</tr>
+												<tr>
+												  <td>0.1</td>
+												  <td>53.04%</td>
+												  <td>67.55%</td>
+												</tr>
+												<tr>
+												  <td>0.01</td>
+												  <td>52.81%</td>
+												  <td>61.75%</td>
+												</tr>
+												<tr>
+													<td>0.001</td>
+													<td>41.67%</td>
+													<td>49.67%</td>
+												  </tr>
+											  </table> 
+
+											<p>Since the domain space of fish identification is pretty different from where these models are originally trained, I decided to try unfreezing more layers, which returned the following results.</p>
+											
+											<table>
+												<tr>
+												  <th>Model</th>
+												  <th>Test Accuracy</th>
+												  <th>Train Accuracy</th>
+												</tr>
+												<tr>
+												  <td>ResNet18</td>
+												  <td>63.90%</td>
+												  <td>94.51%</td>
+												</tr>
+												<tr>
+												  <td>EfficientNet B0</td>
+												  <td>60.39%</td>
+												  <td>89.26%</td>
+												</tr>
+												<tr>
+													<td>ConvNet Tiny</td>
+													<td>70.86%</td>
+													<td>96.27%</td>
+												  </tr>
+											  </table> 
+
+											<p>I then tried a different learning rate scheduler. Instead of using a step decaying approach, I elected to use a decay on plateau approach (with respect to validation loss) without any frozen weights and got the following results.</p>
+											
+											<table>
+												<tr>
+												  <th>Model</th>
+												  <th>Test Accuracy</th>
+												  <th>Train Accuracy</th>
+												</tr>
+												<tr>
+												  <td>ResNet18</td>
+												  <td>64.18%</td>
+												  <td>98.36%</td>
+												</tr>
+												<tr>
+												  <td>EfficientNet B0</td>
+												  <td>65.68%</td>
+												  <td>96.65%</td>
+												</tr>
+												<tr>
+													<td>ConvNet Tiny</td>
+													<td>68.86%</td>
+													<td>97.85%</td>
+												  </tr>
+											  </table> 
+											
+											<p>As we can see from the above experiments, both partially unfreezing layers and the decay on plateau improved performance for convnet tiny, so I decided to try different variations of unfreezing with the Decay on Plateau scheduler.</p>
+											
+											<table>
+												<tr>
+												  <th>Model</th>
+												  <th>Test Accuracy</th>
+												  <th>Train Accuracy</th>
+												</tr>
+												<tr>
+												  <td>CnT PF I (ConvNet Tiny Partial Frozen I)</td>
+												  <td>72.31%</td>
+												  <td>96.95%</td>
+												</tr>
+												<tr>
+												  <td>CnT PF II</td>
+												  <td>72.31%</td>
+												  <td>97.17%</td>
+												</tr>
+												<tr>
+													<td>CnT PF III</td>
+													<td>72.31%</td>
+													<td>96.72%</td>
+												</tr>
+												<tr>
+													<td>CnT PF IIA</td>
+													<td>77.38%</td>
+													<td>97.55%</td>
+												</tr>
+											</table>
+											
+											<p>In training the models above, I noticed that sometimes the Validation Accuracy would plateau while training accuracy would increase after a set amount of time (symptom of overfitting) and other times both accuracies would plateau. To tackle this, I decided to try using L2 regularization. For values greater than or equal to 0.005, my models performance decreased with each epoch. </p>
+
+											<table>
+												<tr>
+												  <th>&lambda;</th>
+												  <th>Test Accuracy</th>
+												  <th>Train Accuracy</th>
+												</tr>
+												<tr>
+													<td>0.002</td>
+													<td>71.25%</td>
+													<td>74.77%</td>
+												  </tr>
+												<tr>
+													<td>0.001</td>
+													<td>75.15%</td>
+													<td>86.16%</td>
+												  </tr>
+												<tr>
+												  <td>0.0005</td>
+												  <td>76.43%</td>
+												  <td>93.27%</td>
+												</tr>
+												<tr>
+												  <td>0.0003</td>
+												  <td>75.54%</td>
+												  <td>92.07</td>
+												</tr>
+												<tr>
+													<td>0.0001</td>
+													<td>77.44%</td>
+													<td>96.57%</td>
+												</tr>
+												<tr>
+													<td>0.00007</td>
+													<td>76.04%</td>
+													<td>97.08%</td>
+												</tr>
+												<tr>
+													<td>0.00005</td>
+													<td>76.21%</td>
+													<td>96.27%</td>
+												</tr>
+												<tr>
+													<td>0.00001</td>
+													<td>76.99%</td>
+													<td>96.31%</td>
+												</tr>
+											</table>
+											
+											<p>As we can see above, adding the L2 regularization did not really improve model performance on the test set (was within margin of error). With this all tested, I then decided to proceed to focusing on improvements on the image/training side of things. After reading this paper, I saw that random crops had the potential to greatly help model accuracy. So I decided to try implementing them on the best classifier thus far  (Convnet Tiny Partial Frozen IIA with Decay on Plateau) to see if that helped. My resulting training accuracy was 97.84% and my test accuracy was 79.39%, which was the best result thus far!</p>
+											
+											<p>As I previously mentioned, all of the above experiments were performed on the images scraped from the scientific name results as I believed that it had higher quality data. To test this hypothesis I then trained the same model on the common dataset only and the mixed dataset (both scientific and common). The results were as follows:</p>
+											
+											<table>
+												<tr>
+												  <th>Training Data Source</th>
+												  <th>Test Accuracy</th>
+												  <th>Train Accuracy</th>
+												</tr>
+												<tr>
+												  <td>Scientific</td>
+												  <td>79.39%</td>
+												  <td>98.36%</td>
+												</tr>
+												<tr>
+												  <td>Common</td>
+												  <td>80.33%</td>
+												  <td>96.65%</td>
+												</tr>
+												<tr>
+													<td>Mixed</td>
+													<td><b><u>80.78%</u></b></td>
+													<td>97.85%</td>
+												  </tr>
+											  </table> 
+											
+											
+											<p>The dataset experiment above showed me that my hypothesis was incorrect; the best results came from the mixed dataset in the end. It turns out, to no one's real surprise, that more data is better. last model update I decided to try for the 92 species classifier, was fine-tuning the models using novel data. For example, I wanted to try fine tuning the model trained on the scientific data by utilizing the common name data and vice versa to see whether this would lead to a better overall result. </p>
+											
+											<table>
+												<tr>
+												  <th>Initial Dataset</th>
+												  <th>Fine Tuning Dataset</th>
+												  <th>Initial Learning Rate</th>
+												  <th>Initial Test Accuracy</th>
+												  <th>Ending Test Accuracy</th>
+												</tr>
+												<tr>
+													<td>Scientific</td>
+													<td>Common</td>
+													<td>0.001</td>
+													<td>79.39%</td>
+													<td>77.33%</td>
+												  </tr>
+												<tr>
+													<td>Scientific</td>
+													<td>Mixed</td>
+													<td>0.001</td>
+													<td>79.39%</td>
+													<td>77.60%</td>
+												  </tr>
+												<tr>
+													<td>Scientific</td>
+													<td>Mixed</td>
+													<td>0.0001</td>
+													<td>79.39%</td>
+													<td>76.88%</td>
+												</tr>
+												<tr>
+													<td>Common</td>
+													<td>Mixed</td>
+													<td>0.0001</td>
+													<td>80.33%</td>
+													<td>77.21%</td>
+											</table>
+											
+											<p>After all of this testing, the best model that I found was the partially frozen Convnet Tiny that was trained on the mixed data. This model has a 80.78% accuracy and a 90.03% top 3 accuracy, so it overall performs very solidly. With all of these experiments concluded, I was then ready to move on to building an expanded species classifier. </p>
+											
+											<h2>Expansion to 286 Species</h2> 
+											
+											<p>After all of these experiments, I decided to expand my classifier to even more species. Unfortunately of the 1350 species in the the fishbase database, only 1,287 had images. For this expanded model I lowered my threshold for number of fishbase images from 25 to 10 and my threshold for scientific/common scraped images from 50 to 30 each. This shifting resulted in 286 species being valid instead of the initial 92. With all of this done, I was then ready to train a new model on this dataset. For this, I tried two different approaches: transfer learning off of my 92 species model and retraining a model from scratch. For both of these, I used the most performant architecture on my previous results.</p>
+											
+											<table>
+												<tr>
+												  <th>Model</th>
+												  <th>Initial Learning Rate</th>
+												  <th>Test Accuracy</th>
+												</tr>
+												<tr>
+												  <td>Transfer Model</td>
+												  <td>0.001</td>
+												  <td><b><u>65.17%</u></b></td>
+												</tr>
+												<tr>
+												  <td>Transfer Model</td>
+												  <td>0.0001</td>
+												  <td>64.94%</td>
+												</tr>
+												<tr>
+													<td>From Scratch</td>
+													<td>0.001</td>
+													<td>63.45%</td>
+												  </tr>
+											  </table> 									
+											
+											<p>The transfer learned model with an initial learning rate of 0.001 had the best test accuracy. It’s top 3 and top 5 accuracies are 82.26% and 87.40% respectively. </p></p>
+										</div>
+								</section>
+							</div>
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner" style ="margin: 0 auto; max-width: 65em; width: calc(100% - 6em);">
+							<section>
+								<form method="post" action="https://formspree.io/syellamilli@protonmail.com">
+									<h2> Contact Me </h2>
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="6"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Clear" /></li>
+									</ul>
+								</form>
+							</section>
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">shivaramyellamilli@gmail.com</a>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon solid alt fa-phone"></span>
+										<h3>Phone</h3>
+										<span>(408) 401- 6524 </span>
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<div class="inner" style ="  padding: 4em 0 2em 0; margin: 0 auto;max-width: 65em; width: calc(100% - 6em);">
+						<ul class="icons">
+							<!-- <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li> -->
+							<li><a href="https://www.linkedin.com/in/shivaramy/" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/syellamilli" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="https://gitlab.com/shivaramy" class="icon brands alt fa-gitlab"><span class="label">GitLab</span></a></li>
+							<li><a href="https://www.instagram.com/axiomatically.ambiguous/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; Shivaram  Yellamilli</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</div>
+				</footer>
+
+			
+			
+		</div>
+
+		
+
+	<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+</body>
+</html>

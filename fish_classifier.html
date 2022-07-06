@@ -108,7 +108,7 @@
 												<li>expanding training sets (train on one set [eg common] and then fine tune using the other set(s) [scientific or mixed])</li>
 
 											</ul>
-											At the end of my experimentation, the best model turned out to be the partially frozen Convnet Tiny trained using Plateau Decay on the Mixed Dataset; it has a 80.78% accuracy and a 90.03% top 3 accuracy. This was miles better than my first model (Resnet18) which had a 63.68% accuracy. 
+											To read about these experiments and their results in more detail check out this <a href = "https://syellamilli.github.io/fc_details.html">sub-post</a>). At the end of my experimentation, the best model turned out to be the partially frozen Convnet Tiny trained using Plateau Decay on the Mixed Dataset; it has a 80.78% accuracy and a 90.03% top 3 accuracy. This was miles better than my first model (Resnet18) which had a 63.68% accuracy. 
 										</p>
 
 										<p>With this model built, I wanted to see if I could build a classifier on even more classes, so I lowered the thresholds used for filtering fish classes to having 10+ images in fishbase and 30+ scientific and common images each, which allowed for 286 different species. For this model, I used the same architecture as I did for the 92 species classifier and tried both training the model from scratch and taking a curriculum learning based approach and training the model off of the 92 species classifier. The curriculum learning approach resulted in a better model, with an accuracy of 65.17%, a top 3 accuracy of 82.26% and a top 5 accuracy of 87.40%.</p>
